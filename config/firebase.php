@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-$config =  [
+return [
     /*
      * ------------------------------------------------------------------------
      * Default Firebase project
@@ -199,6 +197,3 @@ $config =  [
         ],
     ],
 ];
-
-key_replace('projects.app', $config['default'], $config);
-return $config;
