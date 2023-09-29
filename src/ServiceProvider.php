@@ -15,12 +15,10 @@ class ServiceProvider extends BaseServiceProvider
 
     public function boot(): void
     {
-        $this->publishes([
-            __DIR__ . '/../config/firebase.php' => $this->app->configPath('firebase.php'),
-        ], 'config');
-        
-        $configPath = source_path(env('CONFIG_GATEWAY_PATH'));
+        $this->mergeConfigFrom(__DIR__ . '/../config/firebase.php', 'firebase');
 
+        $gatewayPath = $this->app['request']->server->get('GATEWAY_PATH');
+        $configPath = source_path($gatewayPath);
         if (file_exists($configPath)) {
             $this->mergeConfigFrom($configPath, 'gateway');
         }
@@ -34,7 +32,5 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/firebase.php', 'firebase');
-
     }
 }

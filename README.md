@@ -4,6 +4,12 @@
 
 ## Use
 
+#### Registrar el Paquete en Lumen: bootstrap/app.php
+
+```shell
+$app->register(\PackageExample\ExampleServiceProvider::class);
+```
+
 #### Crear un archivo de configuración que deberá contener los endpoints o los parametros con los que interactuara el comunicador.
 
 Path de ejemplo: `Infrastructure/Config/gateway.php`
