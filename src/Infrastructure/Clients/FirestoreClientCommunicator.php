@@ -1,11 +1,11 @@
 <?php
 
-namespace Gateway\Infrastructure\Clients;
+namespace Leadsales\GatewayBridge\Infrastructure\Clients;
 
 use Exception;
-use Gateway\Domain\Interfaces\GatewayInterface;
 use Google\Cloud\Firestore\CollectionReference;
 use Kreait\Laravel\Firebase\Facades\Firebase;
+use Leadsales\GatewayBridge\Domain\Interfaces\GatewayInterface;
 
 class FirestoreClientCommunicator implements GatewayInterface
 {

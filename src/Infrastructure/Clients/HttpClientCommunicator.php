@@ -1,10 +1,10 @@
 <?php
 
-namespace Gateway\Infrastructure\Clients;
+namespace Leadsales\GatewayBridge\Infrastructure\Clients;
 
 use Exception;
 use Illuminate\Support\Facades\Http;
-use Gateway\Domain\Interfaces\GatewayInterface;
+use Leadsales\GatewayBridge\Domain\Interfaces\GatewayInterface;
 
 class HttpClientCommunicator implements GatewayInterface
 {

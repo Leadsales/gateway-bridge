@@ -1,8 +1,8 @@
 <?php
 
-namespace Gateway\Domain\Abstracts;
+namespace Leadsales\GatewayBridge\Domain\Abstracts;
 
-use Gateway\Domain\Interfaces\GatewayInterface;
+use Leadsales\GatewayBridge\Domain\Interfaces\GatewayInterface;
 
 abstract class HandlerGateway
 {

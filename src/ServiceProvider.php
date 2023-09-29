@@ -1,6 +1,6 @@
 <?php
 
-namespace Leadsales\Common\GatewayBridge;
+namespace Leadsales\GatewayBridge;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 

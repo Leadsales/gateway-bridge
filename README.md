@@ -7,7 +7,7 @@
 #### Registrar el Paquete en Lumen: bootstrap/app.php
 
 ```shell
-$app->register(\Leadsales\Common\GatewayBridge\ServiceProvider::class);
+$app->register(\Leadsales\GatewayBridge\ServiceProvider::class);
 ```
 
 #### Crear un archivo de configuración que deberá contener los endpoints o los parametros con los que interactuara el comunicador.
@@ -57,9 +57,9 @@ FIREBASE_UNIVERSE_DOMAIN=
 ```php
 namespace Leads\Application\Senders;
 
-use Gateway\Application\Senders\Traits\RestCommunicator;
-use Gateway\Domain\Abstracts\Sender;
-use Gateway\Domain\Interfaces\GatewayInterface;
+use Leadsales\GatewayBridge\Application\Senders\Traits\RestCommunicator;
+use Leadsales\GatewayBridge\Domain\Abstracts\Sender;
+use Leadsales\GatewayBridge\Domain\Interfaces\GatewayInterface;
 
 class ApiSender extends Sender
 {

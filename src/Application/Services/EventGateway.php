@@ -1,8 +1,9 @@
 <?php
 
-namespace Gateway\Application\Services;
-use Gateway\Domain\Abstracts\HandlerGateway;
-use Gateway\Domain\Interfaces\EventInterface;
+namespace Leadsales\GatewayBridge\Application\Services;
+
+use Leadsales\GatewayBridge\Domain\Abstracts\HandlerGateway;
+use Leadsales\GatewayBridge\Domain\Interfaces\EventInterface;
 
 class EventGateway extends HandlerGateway implements EventInterface
 {

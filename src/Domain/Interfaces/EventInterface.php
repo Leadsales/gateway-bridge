@@ -1,6 +1,6 @@
 <?php
 
-namespace Gateway\Domain\Interfaces;
+namespace Leadsales\GatewayBridge\Domain\Interfaces;
 
 interface EventInterface
 {

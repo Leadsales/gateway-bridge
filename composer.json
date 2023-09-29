@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Leadsales\\Common\\GatewayBridge\\": "src"
+            "Leadsales\\GatewayBridge\\": "src"
         },
         "files": [
             "src/functions_gateway.php"
@@ -24,13 +24,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Leadsales\\Common\\GatewayBridge\\": "tests"
+            "Leadsales\\GatewayBridge\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Leadsales\\Common\\GatewayBridge\\ServiceProvider"
+                "Leadsales\\GatewayBridge\\ServiceProvider"
             ]
         }
     },

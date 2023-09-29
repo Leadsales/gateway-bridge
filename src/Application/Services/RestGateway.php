@@ -1,8 +1,9 @@
 <?php
 
-namespace Gateway\Application\Services;
-use Gateway\Domain\Abstracts\HandlerGateway;
-use Gateway\Domain\Interfaces\RestInterface;
+namespace Leadsales\GatewayBridge\Application\Services;
+
+use Leadsales\GatewayBridge\Domain\Abstracts\HandlerGateway;
+use Leadsales\GatewayBridge\Domain\Interfaces\RestInterface;
 
 class RestGateway extends HandlerGateway implements RestInterface
 {
