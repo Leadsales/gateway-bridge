@@ -1,0 +1,41 @@
+{
+    "name": "leadsales/gateway-bridge",
+    "description": "A Laravel gateway package that standarizes communication between microservices",
+    "version" : "0.0.1",
+    "authors": [
+        {
+            "name": "Edgar Gomez",
+            "email": "edgar.gomez@leadsales.io"
+        }
+    ],
+    "require": {
+        "php": "~8.1.0 || ~8.2.0",
+        "google/cloud-firestore": "^1.37",
+        "kreait/laravel-firebase": "^5.3"
+        
+    },
+    "autoload": {
+        "psr-4": {
+            "Leadsales\\Common\\GatewayBridge\\": "src"
+        },
+        "files": [
+            "src/functions_gateway.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Leadsales\\Common\\GatewayBridge\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leadsales\\Common\\GatewayBridge\\ServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit src/gateway"
+    },
+    "minimum-stability": "dev"
+}
