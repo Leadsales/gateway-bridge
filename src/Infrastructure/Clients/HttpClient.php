@@ -1,12 +1,12 @@
 <?php
 
-namespace Gateway\Infrastructure\Communicators;
+namespace Gateway\Infrastructure\Clients;
 
-use App\Exceptions\LeadSalesException;
+use Exception;
 use Illuminate\Support\Facades\Http;
-use Gateway\Domain\Interfaces\CommunicatorInterface;
+use Gateway\Domain\Interfaces\GatewayInterface;
 
-class HttpClientCommunicator implements CommunicatorInterface
+class HttpClient implements GatewayInterface
 {
     protected string $baseUrl;
 
@@ -21,15 +21,15 @@ class HttpClientCommunicator implements CommunicatorInterface
         try {
             // Asumiendo que 'send' hace un POST a la API.
             $response = Http::post($this->baseUrl, $data);
-        } catch (\Exception $e) {
-            throw new LeadSalesException(
+        } catch (Exception $e) {
+            throw new Exception(
                 message:$e->getMessage(),
                 code:500
             );
         }
 
         if(!$response->successful()){
-            throw new LeadSalesException(
+            throw new Exception(
                 code:$response->status()
             );
         }
@@ -42,15 +42,15 @@ class HttpClientCommunicator implements CommunicatorInterface
         try {
             // Asumiendo que 'receive' hace un GET a la API.
             $response = Http::get($this->baseUrl);
-        } catch (\Exception $e) {
-            throw new LeadSalesException(
+        } catch (Exception $e) {
+            throw new Exception(
                 message:$e->getMessage(),
                 code:500
             );
         }
 
         if(!$response->successful()){
-            throw new LeadSalesException(
+            throw new Exception(
                 code:$response->status()
             );
         }
@@ -71,6 +71,6 @@ class HttpClientCommunicator implements CommunicatorInterface
 
     public function unsubscribe(string $topic)
     {
-        throw new LeadSalesException(message:"Unsubscribe method is not supported for REST.");
+        throw new Exception(message:"Unsubscribe method is not supported for REST.");
     }
 }

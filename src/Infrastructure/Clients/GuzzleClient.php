@@ -1,12 +1,12 @@
 <?php
 
-namespace Gateway\Infrastructure\Communicators;
+namespace Gateway\Infrastructure\Clients;
 
-use App\Exceptions\LeadSalesException;
+use Exception;
 use GuzzleHttp\Client;
-use Gateway\Domain\Interfaces\CommunicatorInterface;
+use Gateway\Domain\Interfaces\GatewayInterface;
 
-class GuzzleClientCommunicator implements CommunicatorInterface
+class GuzzleClient implements GatewayInterface
 {
     protected $client;
     protected $baseUrl;
@@ -49,6 +49,6 @@ class GuzzleClientCommunicator implements CommunicatorInterface
 
     public function unsubscribe(string $topic)
     {
-        throw new LeadSalesException(message:"Unsubscribe method is not supported for REST.");
+        throw new Exception(message:"Unsubscribe method is not supported for REST.");
     }
 }

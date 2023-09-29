@@ -1,12 +1,13 @@
 <?php
 
-namespace Gateway\Infrastructure\Communicators;
+namespace Gateway\Infrastructure\Clients;
 
-use App\Exceptions\LeadSalesException;
-use Gateway\Domain\Interfaces\CommunicatorInterface;
+use Exception;
+use Gateway\Domain\Interfaces\GatewayInterface;
+use Google\Cloud\Firestore\CollectionReference;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 
-class FirestoreCommunicator implements CommunicatorInterface
+class FirestoreClient implements GatewayInterface
 {
     protected $database;
     protected $mainCollection; 
@@ -38,14 +39,14 @@ class FirestoreCommunicator implements CommunicatorInterface
         $collectionOrDocument = $this->mainCollection;
     
         foreach ($segments as $segment) {
-            if ($collectionOrDocument instanceof \Google\Cloud\Firestore\CollectionReference) {
+            if ($collectionOrDocument instanceof CollectionReference) {
                 $collectionOrDocument = $collectionOrDocument->document($segment);
             } else {
                 $collectionOrDocument = $collectionOrDocument->collection($segment);
             }
         }
     
-        if ($collectionOrDocument instanceof \Google\Cloud\Firestore\CollectionReference) {
+        if ($collectionOrDocument instanceof CollectionReference) {
             if (!empty($queryParams)) {
                 foreach ($queryParams as $key => $value) {
                     $collectionOrDocument = $collectionOrDocument->where($key, '=', $value);
@@ -77,7 +78,7 @@ class FirestoreCommunicator implements CommunicatorInterface
 
     public function unsubscribe(string $project)
     {
-        throw new LeadSalesException(message: "Unsubscribe method is not supported for Firestore.");
+        throw new Exception(message: "Unsubscribe method is not supported for Firestore.");
     }
 
     private function splitPathAndQuery(string $path): array

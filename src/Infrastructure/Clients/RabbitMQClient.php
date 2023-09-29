@@ -1,10 +1,10 @@
 <?php
 
-namespace Gateway\Infrastructure\Communicators;
+namespace Gateway\Infrastructure\Clients;
 
-use Gateway\Domain\Interfaces\CommunicatorInterface;
+use Gateway\Domain\Interfaces\GatewayInterface;
 
-class RabbitMQCommunicator implements CommunicatorInterface
+class RabbitMQClient implements GatewayInterface
 {
     protected $connection;
     protected $channel;

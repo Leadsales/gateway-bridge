@@ -2,7 +2,7 @@
 
 namespace Gateway\Domain\Interfaces;
 
-interface CommunicatorInterface
+interface GatewayInterface
 {
     /**
      * Inicia una conexión con el servicio o protocolo. Tambien se puede generar el Cliente Http
