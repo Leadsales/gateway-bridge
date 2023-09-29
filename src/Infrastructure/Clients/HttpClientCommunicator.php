@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Support\Facades\Http;
 use Gateway\Domain\Interfaces\GatewayInterface;
 
-class HttpClient implements GatewayInterface
+class HttpClientCommunicator implements GatewayInterface
 {
     protected string $baseUrl;
 

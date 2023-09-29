@@ -7,7 +7,7 @@ use Gateway\Domain\Interfaces\GatewayInterface;
 use Google\Cloud\Firestore\CollectionReference;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 
-class FirestoreClient implements GatewayInterface
+class FirestoreClientCommunicator implements GatewayInterface
 {
     protected $database;
     protected $mainCollection; 

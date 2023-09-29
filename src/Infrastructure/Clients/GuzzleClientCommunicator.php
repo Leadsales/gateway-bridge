@@ -6,7 +6,7 @@ use Exception;
 use GuzzleHttp\Client;
 use Gateway\Domain\Interfaces\GatewayInterface;
 
-class GuzzleClient implements GatewayInterface
+class GuzzleClientCommunicator implements GatewayInterface
 {
     protected $client;
     protected $baseUrl;

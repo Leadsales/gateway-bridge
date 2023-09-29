@@ -4,7 +4,7 @@ namespace Gateway\Infrastructure\Clients;
 
 use Gateway\Domain\Interfaces\GatewayInterface;
 
-class RabbitMQClient implements GatewayInterface
+class RabbitMQClientCommunicator implements GatewayInterface
 {
     protected $connection;
     protected $channel;
