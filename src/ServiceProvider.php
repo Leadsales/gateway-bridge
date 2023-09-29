@@ -13,14 +13,11 @@ class GatewayServiceProvider extends ServiceProvider
      * @return void
      */
 
-    public function boot()
+    public function boot(): void
     {
-        //Carga las configuraciónes desde el paquete
-        $configPath = source_path(env('CONFIG_GATEWAY_PATH'));
-
-        if (file_exists($configPath)) {
-            $this->mergeConfigFrom($configPath, 'gateway');
-        }
+        $this->publishes([
+            __DIR__ . '/../config/firebase.php' => $this->app->configPath('firebase.php'),
+        ], 'config');
     }
 
     /**
@@ -28,7 +25,9 @@ class GatewayServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register() {}
+    public function register(): void
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../config/firebase.php', 'firebase');
 
-    public function publishFiles() {}
+    }
 }
