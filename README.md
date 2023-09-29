@@ -1,7 +1,5 @@
 # LeadSales Gateway
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
-
 > **Note:** This package provides unified management of various communication protocols, including a REST API, a Message Broker (such as Kafka or RabbitMQ) or Firestore. This simplifies interaction with these services in a straightforward and transparent manner, using consistent methods that enable working with these different protocols in a uniform and efficient way
 
 ## Use
@@ -12,15 +10,15 @@ Path de ejemplo: `Infrastructure/Config/gateway.php`
 
 **Donde:**
 
--   host: env('HOST'): variable de entorno con el host del proveedor
--   url_param: elemento dentro de la url variable
--   path: otros elementos que conforman la url
+- host: env('HOST'): variable de entorno con el host del proveedor
+- url_param: elemento dentro de la url variable
+- path: otros elementos que conforman la url
 
 > **Ejemplo de archivo de configuración:** En el ejemplo de codigo se define el protocolo de comunicación `api` para el proveedor `whatsapp_web` con dos endpoints `status` y `qr`, con sus respectivos endpoints, en donde `?workspaceUuid` es una variable dentro del endpoint, tambien se podria utilizar `{{workspaceUuid}}` o `:workspaceUuid:`. Solo de debe poder identificar cual(es) parte(s) del path en el endpoint son variables para su posterior reemplazo por el valor
 
 ```php
 return [
-    'api'=> [
+    'rest'=> [
         'whatsapp_web' => [
             'status' => env('HOST_WHATSAPP_WEB').'/?workspaceUuid/status',
             'qr' => env('HOST_WHATSAPP_WEB').'/?workspaceUuid/qr',
@@ -34,9 +32,21 @@ return [
 
 ```shell
 GATEWAY_PATH="{{package_name}}/Infrastructure/Config/gateway.php"
+FIREBASE_PROJECT=
+FIREBASE_TYPE=
+FIREBASE_PROJECT_ID=
+FIREBASE_PRIVATE_KEY_ID=
+FIREBASE_PRIVATE_KEY=
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_CLIENT_ID=
+FIREBASE_AUTH_URI=
+FIREBASE_TOKEN_URI=
+FIREBASE_AUTH_PROVIDER_X509_CERT_URL=
+FIREBASE_CLIENT_X509_509=
+FIREBASE_UNIVERSE_DOMAIN=
 ```
 
-#### Crear un Sender ya que cada sender puede tener sus propiar particularidades
+#### Crear un Sender ya que cada sender puede tener sus propias particularidades
 
 ```php
 namespace Leads\Application\Senders;

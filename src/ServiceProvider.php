@@ -18,6 +18,13 @@ class ServiceProvider extends BaseServiceProvider
         $this->publishes([
             __DIR__ . '/../config/firebase.php' => $this->app->configPath('firebase.php'),
         ], 'config');
+        
+        $configPath = source_path(env('CONFIG_GATEWAY_PATH'));
+
+        if (file_exists($configPath)) {
+            $this->mergeConfigFrom($configPath, 'gateway');
+        }
+
     }
 
     /**
