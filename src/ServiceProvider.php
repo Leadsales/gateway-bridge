@@ -22,7 +22,6 @@ class ServiceProvider extends BaseServiceProvider
         if (file_exists($configPath)) {
             $this->mergeConfigFrom($configPath, 'gateway');
         }
-
     }
 
     /**
