@@ -18,7 +18,6 @@ $app->register(\Leadsales\GatewayBridge\ServiceProvider::class);
 #### Registrar en `.env` la ruta del archivo de configuración.
 
 ```shell
-FIREBASE_PROJECT=
 FIREBASE_TYPE=
 FIREBASE_PROJECT_ID=
 FIREBASE_PRIVATE_KEY_ID=
@@ -39,16 +38,16 @@ FIREBASE_UNIVERSE_DOMAIN=
 $communicator = new HttpClientCommunicator;
 
 # Definir el Sender que se utilizará
-$sender = new RestGateway($communicator);
+$gateway = new RestGateway($communicator);
 
 // Definir un endpoint
 $uri = 'https://api.example.com/users/123';
 
 # Para un request tipo GET
-$response = $sender->get($uri);
+$response = $gateway->get($uri);
 
 # para un request tipo POST
-$response = $sender->post($uri, $data);
+$response = $gateway->post($uri, $data);
 
 /*** Ejemplo de response
      array:4 [
