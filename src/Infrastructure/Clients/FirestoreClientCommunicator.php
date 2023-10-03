@@ -10,7 +10,7 @@ use Leadsales\GatewayBridge\Domain\Interfaces\GatewayInterface;
 class FirestoreClientCommunicator implements GatewayInterface
 {
     protected $database;
-    protected $mainCollection; 
+    protected $mainCollection;
 
     public function __construct($project = null)
     {

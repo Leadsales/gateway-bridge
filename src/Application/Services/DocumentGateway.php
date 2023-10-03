@@ -15,4 +15,13 @@ class DocumentGateway extends HandlerGateway
         $this->communicator->subscribe($collection);
         return $this->communicator->receive($path);
     }
+    public function set($email, $password):mixed
+    {
+        $data = [
+            'email' => $email,
+            'password' => $password
+        ];
+        return $this->communicator->send($data);
+    }
+
 }
