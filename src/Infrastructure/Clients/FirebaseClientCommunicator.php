@@ -12,6 +12,7 @@ class FirebaseClientCommunicator implements GatewayInterface
 
     public function __construct($project = null)
     {
+        $project ??= Firebase::getDefaultProject();
         $this->auth = Firebase::project($project)->auth();
     }
 

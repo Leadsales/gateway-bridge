@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'sandbox' => env('FIREBASE_SANDBOX', false),
     /*
      * ------------------------------------------------------------------------
      * Default Firebase project
