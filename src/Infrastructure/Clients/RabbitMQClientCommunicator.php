@@ -11,9 +11,15 @@ class RabbitMQClientCommunicator implements GatewayInterface
     protected $connection;
     protected $channel;
 
-    public function __construct($host, $port, $user, $password)
+    public function __construct($host = null, $port = null, $user = null, $password = null, $vhost = '/')
     {
-        $this->connection = new AMQPStreamConnection($host, $port, $user, $password);
+      $this->connection = new AMQPStreamConnection(
+        $host ?? env('RMQ_HOST'),
+        $port ?? env('RMQ_PORT'),
+        $user ?? env('RMQ_USERNAME'),
+        $password ?? env('RMQ_PASSWORD'),
+        $vhost ?? env('RMQ_VHOST')
+      );
         $this->channel = $this->connection->channel();
     }
 
