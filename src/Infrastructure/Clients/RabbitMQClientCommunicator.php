@@ -23,7 +23,7 @@ class RabbitMQClientCommunicator implements GatewayInterface
         return $this->connection->isConnected();
     }
 
-    public function send(array $data)
+    public function send(array $data): mixed
     {
         // Por simplicidad, enviaremos mensajes a una cola predeterminada.
         $topic = 'default_queue';
@@ -37,7 +37,7 @@ class RabbitMQClientCommunicator implements GatewayInterface
         return true;
     }
 
-    public function receive()
+    public function receive(): mixed
     {
         $topic = 'default_queue';
         $this->channel->queue_declare($topic, false, true, false, false);
