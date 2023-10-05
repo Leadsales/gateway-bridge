@@ -3,6 +3,8 @@
 namespace Leadsales\GatewayBridge\Infrastructure\Clients;
 
 use Leadsales\GatewayBridge\Domain\Interfaces\GatewayInterface;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 class RabbitMQClientCommunicator implements GatewayInterface
 {
