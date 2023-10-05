@@ -2,6 +2,7 @@
 
 namespace Leadsales\GatewayBridge\Infrastructure\Clients;
 
+use App\Exceptions\LeadSalesException;
 use Exception;
 use Google\Cloud\Firestore\CollectionReference;
 use Kreait\Laravel\Firebase\Facades\Firebase;
@@ -14,8 +15,16 @@ class FirestoreClientCommunicator implements GatewayInterface
 
     public function __construct($project = null)
     {
-        $project ??= Firebase::getDefaultProject();
-        $firestore = Firebase::project($project)->firestore();
+        try {
+            $project ??= Firebase::getDefaultProject();
+            $firestore = Firebase::project($project)->firestore();
+        } catch (\Exception $e) {
+            throw new LeadSalesException(
+                message: $e->getMessage(),
+                code:400
+            );
+        }
+        
         $this->database = $firestore->database();
     }
 
