@@ -55,9 +55,12 @@ class FirestoreClientCommunicator implements GatewayInterface
         }
 
         if ($collectionOrDocument instanceof CollectionReference) {
+
+            $query = $collectionOrDocument->orderBy('__name__');
+
             if (!empty($queryParams)) {
                 foreach ($queryParams as $key => $value) {
-                    $query = $collectionOrDocument->where($key, '=', $value);
+                    $query = $query->where($key, '=', $value);
                 }
             }
 
@@ -65,9 +68,6 @@ class FirestoreClientCommunicator implements GatewayInterface
             if ($lastID !== null) {
                 $startAfterDocument = $collectionOrDocument->document($lastID)->snapshot();
             }
-
-            // Ordena la colección por ID del documento
-            $query = $query->orderBy('__name__');
 
             if ($limit !== null) {
                 $query = $query->limit($limit);
