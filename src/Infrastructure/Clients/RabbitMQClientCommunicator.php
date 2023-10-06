@@ -29,10 +29,10 @@ class RabbitMQClientCommunicator implements GatewayInterface
         return $this->connection->isConnected();
     }
 
-    public function send(array $data): mixed
+    public function send(array $data, string $queue): mixed
     {
         // Por simplicidad, enviaremos mensajes a una cola predeterminada.
-        $topic = 'default_queue';
+        $topic = $queue;
 
         $messageBody = json_encode($data);
         $message = new AMQPMessage($messageBody);
