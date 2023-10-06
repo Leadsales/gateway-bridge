@@ -39,13 +39,13 @@ class FirestoreClientCommunicator implements GatewayInterface
         return true;
     }
 
-    public function receive(string $path = '', int $limit = null): mixed
+    public function receive(string $path = '', int $limit = null, string $lastDocumentId = null): mixed
     {
         // Divide el path y los query params
         [$cleanPath, $queryParams] = $this->splitPathAndQuery($path);
         $segments = array_filter(explode('/', $cleanPath));
         $collectionOrDocument = $this->mainCollection;
-    
+
         foreach ($segments as $segment) {
             if ($collectionOrDocument instanceof CollectionReference) {
                 $collectionOrDocument = $collectionOrDocument->document($segment);
@@ -53,7 +53,7 @@ class FirestoreClientCommunicator implements GatewayInterface
                 $collectionOrDocument = $collectionOrDocument->collection($segment);
             }
         }
-        
+
         if ($collectionOrDocument instanceof CollectionReference) {
             if (!empty($queryParams)) {
                 foreach ($queryParams as $key => $value) {
@@ -65,6 +65,15 @@ class FirestoreClientCommunicator implements GatewayInterface
                 $collectionOrDocument = $collectionOrDocument->limit($limit);
             }
     
+            // Ordena la colección por ID del documento
+            $collectionOrDocument = $collectionOrDocument->orderBy('id');
+    
+            // Si se proporciona lastDocumentId, paginamos después de ese documento
+            if ($lastDocumentId !== null) {
+                $lastDocument = $collectionOrDocument->document($lastDocumentId)->snapshot();
+                $collectionOrDocument = $collectionOrDocument->startAfter($lastDocument);
+            }
+
             $documents = $collectionOrDocument->documents();
             $results = [];
             foreach ($documents as $document) {
