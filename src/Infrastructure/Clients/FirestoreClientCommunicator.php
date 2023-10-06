@@ -39,7 +39,7 @@ class FirestoreClientCommunicator implements GatewayInterface
         return true;
     }
 
-    public function receive(string $path = '', int $limit = null, string $lastDocumentId = null): mixed
+    public function receive(string $path = '', int $limit = null, string $lastID = null): mixed
     {
         // Divide el path y los query params
         [$cleanPath, $queryParams] = $this->splitPathAndQuery($path);
@@ -57,24 +57,27 @@ class FirestoreClientCommunicator implements GatewayInterface
         if ($collectionOrDocument instanceof CollectionReference) {
             if (!empty($queryParams)) {
                 foreach ($queryParams as $key => $value) {
-                    $collectionOrDocument = $collectionOrDocument->where($key, '=', $value);
+                    $query = $collectionOrDocument->where($key, '=', $value);
                 }
             }
 
-            if ($limit !== null) {
-                $collectionOrDocument = $collectionOrDocument->limit($limit);
-            }
-    
-            // Ordena la colección por ID del documento
-            $collectionOrDocument = $collectionOrDocument->orderBy('id');
-    
-            // Si se proporciona lastDocumentId, paginamos después de ese documento
-            if ($lastDocumentId !== null) {
-                $lastDocument = $collectionOrDocument->document($lastDocumentId)->snapshot();
-                $collectionOrDocument = $collectionOrDocument->startAfter($lastDocument);
+            $startAfterDocument = null;
+            if ($lastID !== null) {
+                $startAfterDocument = $collectionOrDocument->document($lastID)->snapshot();
             }
 
-            $documents = $collectionOrDocument->documents();
+            // Ordena la colección por ID del documento
+            $query = $query->orderBy('__name__');
+
+            if ($limit !== null) {
+                $query = $query->limit($limit);
+            }
+
+            if ($startAfterDocument) {
+                $query = $query->startAfter($startAfterDocument);
+            }
+
+            $documents = $query->documents();
             $results = [];
             foreach ($documents as $document) {
                 if ($document->exists()) {
