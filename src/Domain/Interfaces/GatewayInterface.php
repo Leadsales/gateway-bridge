@@ -24,7 +24,7 @@ interface GatewayInterface
      * @param array $data
      * @return mixed
      */
-    public function send(array $data, string $queue):mixed;
+    public function send(array $data):mixed;
 
     /**
      * Recibe un mensaje o respuesta. p.e Method Get
