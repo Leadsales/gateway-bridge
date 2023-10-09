@@ -10,8 +10,9 @@ class RabbitMQClientCommunicator implements GatewayInterface
 {
     protected $connection;
     protected $channel;
+    protected string $topic;
 
-    public function __construct($host = null, $port = null, $user = null, $password = null, $vhost = '/')
+    public function __construct($host = null, $port = null, $user = null, $password = null, $vhost = '/', $topic = null)
     {
       $this->connection = new AMQPStreamConnection(
         $host ?? env('RMQ_HOST'),
@@ -21,6 +22,7 @@ class RabbitMQClientCommunicator implements GatewayInterface
         $vhost ?? env('RMQ_VHOST')
       );
         $this->channel = $this->connection->channel();
+        $this->topic = $topic ?? 'default_queue';
     }
 
     public function connect(): bool
@@ -29,10 +31,10 @@ class RabbitMQClientCommunicator implements GatewayInterface
         return $this->connection->isConnected();
     }
 
-    public function send(array $data, string $queue): mixed
+    public function send(array $data): mixed
     {
         // Por simplicidad, enviaremos mensajes a una cola predeterminada.
-        $topic = $queue;
+        $topic = $this->topic;
 
         $messageBody = json_encode($data);
         $message = new AMQPMessage($messageBody);
@@ -45,7 +47,7 @@ class RabbitMQClientCommunicator implements GatewayInterface
 
     public function receive(): mixed
     {
-        $topic = 'default_queue';
+        $topic = $this->topic;
         $this->channel->queue_declare($topic, false, true, false, false);
 
         $message = $this->channel->basic_get($topic);
