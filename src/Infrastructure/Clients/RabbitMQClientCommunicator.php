@@ -65,6 +65,7 @@ class RabbitMQClientCommunicator implements GatewayInterface
 
     public function subscribe(string $topic)
     {
+        $this->topic = $topic;
         // En RabbitMQ, los "topics" se refieren a rutas de binding en exchanges.
         // Por simplicidad, este método podría ser usado para consumir mensajes de una cola específica.
         $this->channel->queue_declare($topic, false, true, false, false);
