@@ -3,6 +3,7 @@
 namespace Leadsales\GatewayBridge\Infrastructure\Clients;
 
 use Exception;
+use InvalidArgumentException;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 use Leadsales\GatewayBridge\Domain\Interfaces\GatewayInterface;
 
@@ -27,10 +28,21 @@ class FirebaseClientCommunicator implements GatewayInterface
         return $this->auth->createUserWithEmailAndPassword($email, $password);
     }
 
-    public function receive(string $path = ''): mixed
+    public function receive(string $userId=null, string $email=null): mixed
     {
-        // Implementación para obtener data
-        return true;
+        if (!$userId && !$email) {
+            throw new InvalidArgumentException('You must provide at least one parameter (userId or email).');
+        }
+
+        if ($userId) {
+            return $this->auth->getUser($userId);
+        }
+    
+        if ($email) {
+            return $this->auth->getUserByEmail($email);
+        }
+    
+        return null;
     }
     public function disconnect(): bool
     {
