@@ -28,12 +28,6 @@ class HttpClientCommunicator implements GatewayInterface
             );
         }
 
-        if(!$response->successful()){
-            throw new Exception(
-                code:$response->status()
-            );
-        }
-        
         return $response->json();
     }
 
@@ -48,13 +42,6 @@ class HttpClientCommunicator implements GatewayInterface
                 code:500
             );
         }
-
-        if(!$response->successful()){
-            throw new Exception(
-                code:$response->status()
-            );
-        }
-        
         return $response->json();
     }
 
