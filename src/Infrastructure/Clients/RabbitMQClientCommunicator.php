@@ -19,11 +19,12 @@ class RabbitMQClientCommunicator implements GatewayInterface
     {
         try {
             $this->connection = new AMQPStreamConnection(
-                $host ?? env('RMQ_HOST'),
-                $port ?? env('RMQ_PORT'),
-                $user ?? env('RMQ_USERNAME'),
-                $password ?? env('RMQ_PASSWORD'),
-                $vhost ?? env('RMQ_VHOST')
+                host: $host ?? env('RMQ_HOST'),
+                port: $port ?? env('RMQ_PORT'),
+                user: $user ?? env('RMQ_USERNAME'),
+                password: $password ?? env('RMQ_PASSWORD'),
+                vhost: $vhost ?? env('RMQ_VHOST'),
+                ssl_protocol: [ 'verify_peer' => false ]
             );
         } catch (Exception $e) {
             Log::error($e->getMessage());
