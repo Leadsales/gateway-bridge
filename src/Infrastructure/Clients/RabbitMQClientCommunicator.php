@@ -5,7 +5,7 @@ namespace Leadsales\GatewayBridge\Infrastructure\Clients;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Leadsales\GatewayBridge\Domain\Interfaces\GatewayInterface;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Connection\AMQPSSLConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 class RabbitMQClientCommunicator implements GatewayInterface
@@ -18,12 +18,13 @@ class RabbitMQClientCommunicator implements GatewayInterface
     public function connect($host = null, $port = null, $user = null, $password = null, $vhost = '/'): bool
     {
         try {
-            $this->connection = new AMQPStreamConnection(
-                $host ?? env('RMQ_HOST'),
-                $port ?? env('RMQ_PORT'),
-                $user ?? env('RMQ_USERNAME'),
-                $password ?? env('RMQ_PASSWORD'),
-                $vhost ?? env('RMQ_VHOST')
+            $this->connection = new AMQPSSLConnection(
+                host: $host ?? env('RMQ_HOST'),
+                port: $port ?? env('RMQ_PORT'),
+                user: $user ?? env('RMQ_USERNAME'),
+                password: $password ?? env('RMQ_PASSWORD'),
+                vhost: $vhost ?? env('RMQ_VHOST'),
+                ssl_protocol: [ 'verify_peer' => false ]
             );
         } catch (Exception $e) {
             Log::error($e->getMessage());
