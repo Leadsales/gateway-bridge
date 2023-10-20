@@ -15,7 +15,6 @@ class ServiceProvider extends BaseServiceProvider
 
     public function boot(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/firebase.php', 'firebase');
     }
 
     /**
@@ -25,5 +24,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/../config/firebase.php', 'firebase');
     }
 }
