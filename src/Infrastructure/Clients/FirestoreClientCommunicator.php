@@ -5,6 +5,7 @@ namespace Leadsales\GatewayBridge\Infrastructure\Clients;
 use App\Exceptions\LeadSalesException;
 use Exception;
 use Google\Cloud\Firestore\CollectionReference;
+use Google\Cloud\Firestore\DocumentReference;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 use Leadsales\GatewayBridge\Domain\Interfaces\GatewayInterface;
 
@@ -33,11 +34,33 @@ class FirestoreClientCommunicator implements GatewayInterface
         return true;
     }
 
-    public function send(array $data): mixed
+    public function send(array $data = [], string $path = ''): mixed
     {
-        // Implementación para guardar data...
-        return true;
+        [$cleanPath, $queryParams] = $this->splitPathAndQuery($path);
+        $segments = array_filter(explode('/', $cleanPath));
+    
+        if (!$this->mainCollection) {
+            throw new Exception('No collection has been subscribed to.');
+        }
+    
+        $collectionOrDocument = $this->mainCollection;
+
+        foreach ($segments as $segment) {
+            if ($collectionOrDocument instanceof CollectionReference) {
+                $collectionOrDocument = $collectionOrDocument->document($segment);
+            } else {
+                $collectionOrDocument = $collectionOrDocument->collection($segment);
+            }
+        }
+    
+        if ($collectionOrDocument instanceof DocumentReference) {
+            $collectionOrDocument->set($data);
+            return $collectionOrDocument->snapshot()->data();
+        } else {
+            throw new Exception('The path provided does not lead to a document.');
+        }
     }
+    
 
     public function receive(string $path = '', int $limit = null, string $lastID = null): mixed
     {
