@@ -54,13 +54,13 @@ class FirestoreClientCommunicator implements GatewayInterface
         }
     
         if ($collectionOrDocument instanceof DocumentReference) {
-            $collectionOrDocument->set($data);
+            $collectionOrDocument->set($data, ['merge' => true]);
+    
             return $collectionOrDocument->snapshot()->data();
         } else {
             throw new Exception('The path provided does not lead to a document.');
         }
     }
-    
 
     public function receive(string $path = '', int $limit = null, string $lastID = null): mixed
     {
