@@ -83,8 +83,13 @@ class FirestoreClientCommunicator implements GatewayInterface
 
             if (!empty($queryParams)) {
                 foreach ($queryParams as $key => $value) {
-                    if($value === 'true') $value = true;
-                    if($value === 'false') $value = false;
+                    if($value === 'true') {
+                        $value = true;
+                    } elseif($value === 'false') {
+                        $value = false;
+                    } elseif (is_numeric($value) && (int)$value == $value) {
+                        $value = (int)$value;
+                    }
                     $query = $query->where($key, '=', $value);
                 }
             }
