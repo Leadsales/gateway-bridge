@@ -87,6 +87,8 @@ class FirestoreClientCommunicator implements GatewayInterface
                         $value = true;
                     } elseif($value === 'false') {
                         $value = false;
+                    } elseif($value === 'null') {
+                        $value = null;
                     } elseif (is_numeric($value) && (int)$value == $value) {
                         $value = (int)$value;
                     }
