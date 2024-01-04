@@ -78,24 +78,33 @@ class FirestoreClientCommunicator implements GatewayInterface
         }
 
         if ($collectionOrDocument instanceof CollectionReference) {
-
-            $query = $collectionOrDocument->orderBy('__name__');
-
+            $query = $collectionOrDocument;
+    
+            $orderByField = '__name__';
+    
             if (!empty($queryParams)) {
                 foreach ($queryParams as $key => $value) {
-                    if($value === 'true') {
-                        $value = true;
-                    } elseif($value === 'false') {
-                        $value = false;
-                    } elseif($value === 'null') {
-                        $value = null;
-                    } elseif (is_numeric($value) && (int)$value == $value) {
-                        $value = (int)$value;
+                    if(isset($value['like'])){
+                        $val = $value['like'];
+                        $query = $query->where($key, '>=', $val)->where($key, '<=', $val . '\uf8ff');
+                        $orderByField = $key;
+                    } else {
+                        if($value === 'true') {
+                            $value = true;
+                        } elseif($value === 'false') {
+                            $value = false;
+                        } elseif($value === 'null') {
+                            $value = null;
+                        } elseif (is_numeric($value) && (int)$value == $value) {
+                            $value = (int)$value;
+                        }
+                        $query = $query->where($key, '=', $value);
                     }
-                    $query = $query->where($key, '=', $value);
                 }
             }
-
+    
+            $query = $query->orderBy($orderByField);
+    
             $startAfterDocument = null;
             if ($lastID !== null) {
                 $startAfterDocument = $collectionOrDocument->document($lastID)->snapshot();
