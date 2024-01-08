@@ -68,7 +68,7 @@ class FirestoreClientCommunicator implements GatewayInterface
         [$cleanPath, $queryParams] = $this->splitPathAndQuery($path);
         $segments = array_filter(explode('/', $cleanPath));
         $collectionOrDocument = $this->mainCollection;
-
+    
         foreach ($segments as $segment) {
             if ($collectionOrDocument instanceof CollectionReference) {
                 $collectionOrDocument = $collectionOrDocument->document($segment);
@@ -76,7 +76,7 @@ class FirestoreClientCommunicator implements GatewayInterface
                 $collectionOrDocument = $collectionOrDocument->collection($segment);
             }
         }
-
+    
         if ($collectionOrDocument instanceof CollectionReference) {
             $query = $collectionOrDocument;
     
@@ -109,15 +109,15 @@ class FirestoreClientCommunicator implements GatewayInterface
             if ($lastID !== null) {
                 $startAfterDocument = $collectionOrDocument->document($lastID)->snapshot();
             }
-
+    
             if ($limit !== null) {
                 $query = $query->limit($limit);
             }
-
+    
             if ($startAfterDocument) {
                 $query = $query->startAfter($startAfterDocument);
             }
-
+    
             $documents = $query->documents();
             $results = [];
             foreach ($documents as $document) {
@@ -131,6 +131,39 @@ class FirestoreClientCommunicator implements GatewayInterface
             return $snapshot->data();
         }
     }
+
+    public function delete(string $path = ''): mixed
+    {
+        [$cleanPath, $queryParams] = $this->splitPathAndQuery($path);
+        $segments = array_filter(explode('/', $cleanPath));
+    
+        if (!$this->mainCollection) {
+            throw new Exception('No collection has been subscribed to.');
+        }
+    
+        $collectionOrDocument = $this->mainCollection;
+
+        foreach ($segments as $segment) {
+            if ($collectionOrDocument instanceof CollectionReference) {
+                $collectionOrDocument = $collectionOrDocument->document($segment);
+            } else {
+                $collectionOrDocument = $collectionOrDocument->collection($segment);
+            }
+        }
+
+        if ($collectionOrDocument instanceof DocumentReference) {
+            $collectionOrDocument->delete();
+        } else {
+            throw new Exception('The path provided does not lead to a document.');
+        }
+
+        if (!$this->mainCollection) {
+            throw new Exception('No collection has been subscribed to.');
+        }
+
+        return ['message' => 'Document successfully deleted', 'documentId' => $segment];
+    }
+    
 
     public function disconnect(): bool
     {
