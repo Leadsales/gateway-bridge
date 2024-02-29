@@ -25,6 +25,11 @@ class FirebaseClientCommunicator implements GatewayInterface
     public function send(array $data): mixed
     {
         extract($data);
+
+        if(isset($uId)) {
+            return $this->auth->changeUserEmail($uId, $email);
+        }
+
         return $this->auth->createUserWithEmailAndPassword($email, $password);
     }
 
