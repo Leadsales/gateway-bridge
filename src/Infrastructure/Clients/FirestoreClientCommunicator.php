@@ -187,6 +187,7 @@ class FirestoreClientCommunicator implements GatewayInterface
         $queryParams = [];
 
         if (isset($parts['query'])) {
+            $parts['query'] = str_replace('+', '%2B', $parts['query']);
             parse_str($parts['query'], $queryParams);
         }
 
